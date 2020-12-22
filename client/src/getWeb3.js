@@ -6,12 +6,15 @@ const getWeb3 = () =>
     window.addEventListener("load", async () => {
       // Modern dapp browsers...
       if (window.ethereum) {
+        console.log("wait ethereum...");
         const web3 = new Web3(window.ethereum);
         try {
           // Request account access if needed
-          await window.ethereum.enable();
+          // ethereum.request({ method: 'eth_requestAccounts' })
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
           // Acccounts now exposed
           resolve(web3);
+          console.log("etherunm conneted...");
         } catch (error) {
           reject(error);
         }
@@ -29,10 +32,21 @@ const getWeb3 = () =>
           "http://13.209.21.107:8545"
         );
         const web3 = new Web3(provider);
+        web3.ethereum.autoRefreshOnNetworkChange = false;
         console.log("No web3 instance injected, using Local web3.");
         resolve(web3);
+        
       }
     });
   });
+
+  const getAccounts = () =>
+   new Promise((resolve, reject) => {
+    window.addEventListener("load", async () => {
+      const accounts = new Array();
+      await window.ethereum.request({ method: 'eth_accounts' });
+      resolve(accounts);
+    })
+  })
 
 export default getWeb3;

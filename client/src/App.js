@@ -10,13 +10,13 @@ class App extends Component {
     super(props);
 
     this.state = {
-      defaultUser: null,
+      myAccount: null,
       web3: null
     };
   }
 
   componentWillMount() {
-    getWeb3
+    getWeb3()
       .then(results => {
         this.setState({
           web3: results.web3
@@ -24,21 +24,29 @@ class App extends Component {
 
         this.instantiateContract();
       })
-      .catch(() => {
-        console.log("Error finding web3.");
+      .catch((error) => {
+        console.log("Error web3: " + error);
       });
   }
 
-  instantiateContract() {
-    this.state.web3.eth.getAccounts((error, accounts) => {
-      if (!error) {
-        this.setState({ myAccount: accounts[0] });
-      }
-    });
-  }
-
+  instantiateContract() { // 계약 인스턴스화
+    this.state.web3.ethereum.request({ method: 'eth_accounts' }).then(accounts =>
+      { this.setState({ myAccount: accounts[0] });
+        console.log("account: "+ this.state.myAccount);
+      }).catch((error) => {
+        console.log(error);
+      })
+    }
+   
   render() {
-      return <div>{this.state.defaultUser}</div>
+      return (
+        <div>
+          <div>
+            myaccount is: 
+            {this.state.myAccount}
+          </div>
+        </div>
+      );
   }
 
 }
