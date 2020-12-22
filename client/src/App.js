@@ -18,27 +18,15 @@ class App extends Component {
 
   componentWillMount() {
     setWeb3(this).then(this.instantiateContract);
-    // getWeb3()
-    //   .then(results => {
-    //     this.setState({
-    //       web3: results.web3
-    //     });
-
-    //     this.instantiateContract();
-    //   })
-    //   .catch((error) => {
-    //     console.log("Error web3: " + error);
-    //   });
   }
 
   instantiateContract() { // 계약 인스턴스화
-    // this.state.web3.ethereum.request({ method: 'eth_accounts' }).then(accounts =>
-    //   { this.setState({ myAccount: accounts[0] });
-    //     console.log("account: "+ this.state.myAccount);
-    //   }).catch((error) => {
-    //     console.log(error);
-    // })
-    // console.log("account: "+ this.state.default_account);
+      const contract = require("truffle-contract");
+      const mynft = contract(MyNFTContract);
+      const auctions = contract(AuctionsContract);
+
+      mynft.setProvider(this.state.web3.currentProvider);
+      auctions.setProvider(this.state.web3.currentProvider);
   }
    
   render() {
