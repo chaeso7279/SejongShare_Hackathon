@@ -38,11 +38,10 @@ class App extends Component {
     //   }).catch((error) => {
     //     console.log(error);
     // })
-    console.log("account: "+ this.state.default_account);
+    // console.log("account: "+ this.state.default_account);
   }
    
   render() {
-      const {accounts, default_account, web3} = this.state;
       return (
         <div>
           <div>
